@@ -1,0 +1,35 @@
+name: Add Tasklist to Issue #1 on New Issue Creation
+
+on:
+  issues:
+    types: [opened]  # Se dispara cuando se abre un nuevo issue
+
+jobs:
+  update-issue:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Update Issue #1 with tasklist
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Usamos el token para autenticar las peticiones a la API
+      run: |
+        # Instalar la CLI de GitHub
+        curl -sSL https://github.com/cli/cli/releases/download/v2.3.0/gh_2.3.0_linux_amd64.tar.gz | tar xz
+        sudo mv gh_2.3.0_linux_amd64/bin/gh /usr/local/bin
+
+        # Obtener el número del nuevo issue
+        NEW_ISSUE_NUMBER=${{ github.event.issue.number }}
+        echo "Nuevo issue creado con número: $NEW_ISSUE_NUMBER"
+
+        # Obtener el body actual de Issue #1
+        ISSUE_1_BODY=$(gh issue view 1 --json body -q ".body")
+
+        # Añadir el task list con el nuevo issue
+        UPDATED_BODY="$ISSUE_1_BODY\n\n- [ ] #$NEW_ISSUE_NUMBER"
+
+        # Actualizar Issue #1 con el nuevo body
+        gh issue edit 1 --body "$UPDATED_BODY"
+
