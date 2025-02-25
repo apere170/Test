@@ -14,7 +14,7 @@ jobs:
 
     - name: Update Issue #1 with tasklist
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Usamos el token para autenticar las peticiones a la API
+        GITHUB_TOKEN: ${{ secrets.TOKEN_GIT }}  # Usamos el token para autenticar las peticiones a la API
       run: |
         # Instalar la CLI de GitHub
         curl -sSL https://github.com/cli/cli/releases/download/v2.3.0/gh_2.3.0_linux_amd64.tar.gz | tar xz
