@@ -28,7 +28,9 @@ jobs:
         ISSUE_1_BODY=$(gh issue view 1 --json body -q ".body")
 
         # Añadir el task list con el nuevo issue
-        UPDATED_BODY="$ISSUE_1_BODY\n\n- [ ] #$NEW_ISSUE_NUMBER"
+        UPDATED_BODY="
+          $ISSUE_1_BODY
+         [ ] #$NEW_ISSUE_NUMBER"
 
         # Actualizar Issue #1 con el nuevo body
         gh issue edit 1 --body "$UPDATED_BODY"
